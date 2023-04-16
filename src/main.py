@@ -1,34 +1,28 @@
 from api import api
 from api import db
 from dotenv import load_dotenv
+import discord
 from discord.ext import commands
-
-
-import commands
+import api.commands as user_commands
 import os
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
+intents = discord.Intents.default()
+intents.message_content = True
+bot = discord.ext.commands.Bot(command_prefix=commands.when_mentioned_or('?'),intents = intents)    
 
-bot = commands.Bot(command_prefix="!")    
+
+@bot.command(name='register')
+async def register(ctx):
+    await user_commands.register_user(bot, ctx.author)
+
+@bot.command(name='user')
+async def show_user(ctx,arg):
+    await user_commands.handle_user_cmd(ctx,arg)
 
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user: 
-        return
-    if message.content.startswith("register"):
-        commands.register_user(message)
-    elif message.content.startswith("user"):
-        commands.handle_user_cmd(message)
-    elif message.content.startswith("streaks"):
-        commands.handle_streaks
-        pass
-    elif message.content.startswith("test"):
-        content = 'Bot is up and running!'
-        await message.channel.send(content)
-
-    await bot.process_commands(message)
+    
 
 @bot.event
 async def on_ready():
@@ -36,4 +30,5 @@ async def on_ready():
 
 
 if __name__ == "__main__":    
+    print(TOKEN)
     bot.run(TOKEN)

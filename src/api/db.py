@@ -1,8 +1,9 @@
-from sqlitedict import SqliteDict
+
+from sqlitedict import SqliteDict 
 
 
 def register_user(user:str,user_api_key:str):
-    with  SqliteDict("./users.sqlite") as sqldict:
+    with SqliteDict("./users.sqlite") as sqldict:
         sqldict[user] = user_api_key
         sqldict.commit()
 
@@ -15,3 +16,8 @@ def is_user_registered(user:str):
 def get_user_api_key(user:str):
     with  SqliteDict("./users.sqlite") as sqldict:
         return sqldict[user]
+
+def show_connected_users():
+    with  SqliteDict("./users.sqlite") as sqldict:
+        return sqldict.keys()
+
