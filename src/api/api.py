@@ -2,7 +2,6 @@ import requests
 from api.types.user import UserInformation
 from api import db
 from dotenv import load_dotenv
-
 API_ENDPOINT = "https://api.wanikani.com/v2"
 REVISION = "20170710"
 
@@ -33,4 +32,8 @@ def get_user_streaks(user:str):
     if (response.status_code == 200):
         print(response.json())
     
-    
+def get_server_levels_leaderboard():
+    users = db.get_registered_users()
+    profiles = list(map(lambda x : request_user_information(x),users))
+    profiles.sort(reverse=True, key=lambda x : x.level)
+    return profiles

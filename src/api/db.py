@@ -17,7 +17,7 @@ def get_user_api_key(user:str):
     with  SqliteDict("./users.sqlite") as sqldict:
         return sqldict[user]
 
-def show_connected_users():
+def get_registered_users():
     with  SqliteDict("./users.sqlite") as sqldict:
-        return sqldict.keys()
+        return list(sqldict.keys())
 

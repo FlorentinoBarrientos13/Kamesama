@@ -9,3 +9,6 @@ class UserInformation(object):
         self.username = data["username"]
         self.level = data["level"]
         self.start_date = isoparse(data["started_at"])
+
+    def __str__(self):
+        return f"username : {self.username} \nlevel : {self.level}\nstart_date:{self.start_date}"
